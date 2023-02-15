@@ -14,6 +14,9 @@ lxc exec "$container_name" -- apt install wget openssh-server -y
 lxc exec "$container_name" -- rm -rf /etc/ssh/sshd_config
 lxc exec "$container_name" -- wget -O /etc/ssh/sshd_config https://raw.githubusercontent.com/dxomg/sshd_config/main/sshd_config
 lxc exec "$container_name" -- systemctl restart ssh
+lxc exec "$container_name" -- rm -rf /etc/hostname
+lxc exec "$container_name" -- echo 'UnknownVPS' >> /etc/hostname
+lxc exec "$container_name" -- passwd
 echo -n "SSH Port: "
 read -r port
 lxc config device add "$container_name" ssh proxy listen=tcp:0.0.0.0:"$port" connect=tcp:127.0.0.1:22
